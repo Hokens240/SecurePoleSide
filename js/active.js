@@ -100,7 +100,7 @@ if (scrollDiv) {
 }
 
 // 1.6 Password Visibility
-let inputPasswordId = document.getElementById('registerPassword');
+let inputPasswordId = document.getElementById('passwordInput');
 let passwordButton = document.querySelector('.label-psswd');
 
 if (inputPasswordId) {
@@ -114,6 +114,23 @@ if (inputPasswordId) {
         }
     }
     passwordButton.addEventListener('click', passwordHideShow);
+}
+
+// 1.6 Password Visibility 2
+let registerPasswordId = document.getElementById('regPassword');
+let registerpasswordButton = document.querySelector('.label-password');
+
+if (registerPasswordId) {
+    function passwordHideShow() {
+        if (registerPasswordId.type === 'password') {
+            registerPasswordId.type = 'text';
+            registerpasswordButton.innerHTML = '<i class="bi bi-eye-slash"></i>';
+        } else {
+            registerPasswordId.type = 'password';
+            registerpasswordButton.innerHTML = '<i class="bi bi-eye"></i>';
+        }
+    }
+    registerpasswordButton.addEventListener('click', passwordHideShow);
 }
 
 // 1.7 Scroll to Top
