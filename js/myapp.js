@@ -138,20 +138,19 @@ function loadDashboard() {
         document.getElementById('userStatus').textContent = status;
 
         // --- FINANCIAL DATA UPDATE ---
-        // Verify data structure in the console (F12)
-        console.log("Dashboard Data Loaded:", {
-            balance: currentUser.accountBalance,
-            profit: currentUser.totalProfit,
-            profitBalance: currentUser.profitBalance,
-            initialInvestment: currentUser.initialInvestment,
-            returnOnInvestment: currentUser.returnOnInvestment
+        // IMPORTANT FIX: Use parseFloat() to ensure the values are treated as numbers 
+        // before the formatCurrency function (which uses toLocaleString) is called.
+        document.getElementById('accBalance').textContent = formatCurrency(parseFloat(currentUser.accountBalance) ?? 0.00);
+        document.getElementById('totalProfit').textContent = formatCurrency(parseFloat(currentUser.totalProfit) ?? 0.00);
+        document.getElementById('profitBalance').textContent = formatCurrency(parseFloat(currentUser.profitBalance) ?? 0.00);
+        document.getElementById('returnOnInvestment').textContent = formatCurrency(parseFloat(currentUser.returnOnInvestment) ?? 0.00);
+        document.getElementById('initialInvestment').textContent = formatCurrency(parseFloat(currentUser.initialInvestment) ?? 0.00);
+        
+        // Debugging log to confirm data type conversion
+        console.log("Dashboard Data Formatted:", {
+            balance: document.getElementById('accBalance').textContent,
+            type: typeof parseFloat(currentUser.accountBalance)
         });
-
-        document.getElementById('accBalance').textContent = formatCurrency(currentUser.accountBalance ?? 0.00);
-        document.getElementById('totalProfit').textContent = formatCurrency(currentUser.totalProfit ?? 0.00);
-        document.getElementById('profitBalance').textContent = formatCurrency(currentUser.profitBalance ?? 0.00);
-        document.getElementById('initialInvestment').textContent = formatCurrency(currentUser.initialInvestment ?? 0.00);
-        document.getElementById('returnOnInvestment').textContent = formatCurrency(currentUser.returnOnInvestment ?? 0.00);
         
     } else {
         logoutMock();
@@ -165,7 +164,10 @@ function logoutMock() {
 }
 
 
-// --- AUTO-LOAD FIX FOR DASHBOARD ---
-if (document.getElementById('dashboardName')) {
-    loadDashboard();
-}
+// --- ROBUST AUTO-LOAD FIX FOR DASHBOARD (Wait for DOM) ---
+// This ensures loadDashboard runs only after the entire HTML structure is ready.
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('dashboardName')) {
+        loadDashboard();
+    }
+});
