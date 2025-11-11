@@ -1,4 +1,4 @@
-// --- GLOBAL HELPER FUNCTION ---
+// --- FUNCTIONS ---
 // Formats a number into a currency string (e.g., 1550.75 -> "1,550.75")
 const formatCurrency = (value) => value.toLocaleString('en-US', { minimumFractionDigits: 2 });
 
