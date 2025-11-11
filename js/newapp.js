@@ -1,8 +1,7 @@
 // --- DATABASE INITIALIZATION ---
 function initializeMockUsers() {
-    // 1. Define your initial, "pre-existing" user database. 
-    // pass: null = password ignored during login.
     const initialUsers = [
+        // NOTE: Even though these are hardcoded, it's best practice to store them in lowercase.
         { 
             email: "alice@example.com", firstName: "Alice", lastName: "Smith", country: "USA", pass: null, 
             accountBalance: 1550.75, totalProfit: 520.10, profitBalance: 120.50 
@@ -13,14 +12,12 @@ function initializeMockUsers() {
         },
     ];
 
-    // 2. Load the initial users only if localStorage is empty (first time or after cache clear).
     if (!localStorage.getItem('mockUsers')) {
         localStorage.setItem('mockUsers', JSON.stringify(initialUsers));
         console.log("Initial mock database loaded.");
     }
 }
 
-// Run initialization immediately
 initializeMockUsers();
 
 
@@ -37,23 +34,25 @@ function registerMock() {
         return;
     }
 
+    // --- FIX: Normalize email to lowercase for consistent storage ---
+    const normalizedEmail = newEmail.toLowerCase(); 
+
     const storedUsersJSON = localStorage.getItem('mockUsers');
     const users = JSON.parse(storedUsersJSON);
 
-    // Check for duplicate email
-    const emailExists = users.some(user => user.email === newEmail);
+    // Check for duplicate email using the normalized version
+    const emailExists = users.some(user => user.email === normalizedEmail);
     if (emailExists) {
         alert("This email is already registered.");
         return;
     }
 
-    // 4. Create the new user object (with default financial data)
     const newUser = { 
-        email: newEmail, 
+        email: normalizedEmail, // Store the normalized email
         firstName: newFirstName, 
         lastName: newLastName, 
         country: newCountry, 
-        pass: newPass, // Stored password
+        pass: newPass,
         accountBalance: 0.00,
         totalProfit: 0.00,
         profitBalance: 0.00
@@ -62,7 +61,6 @@ function registerMock() {
 
     console.log(`[DEV LOG] New user registered:`, newUser);
 
-    // 5. Save the updated database back to localStorage
     localStorage.setItem('mockUsers', JSON.stringify(users));
 
     alert(`Registration successful! Welcome, ${newFirstName}. You can now log in.`);
@@ -75,17 +73,20 @@ function loginMock() {
     const loginEmail = document.getElementById('emailInput').value.trim();
     const loginPass = document.getElementById('passwordInput').value.trim();
 
+    // --- FIX: Normalize input email to lowercase for case-insensitive lookup ---
+    const normalizedLoginEmail = loginEmail.toLowerCase(); 
+
     const storedUsersJSON = localStorage.getItem('mockUsers');
     const users = JSON.parse(storedUsersJSON);
 
-    const foundUser = users.find(user => user.email === loginEmail);
+    // Search the database using the normalized email
+    const foundUser = users.find(user => user.email === normalizedLoginEmail);
 
     if (foundUser) {
         
         // SCENARIO 1: User has a password (Newly Registered User)
         if (foundUser.pass !== null) {
             if (foundUser.pass === loginPass) {
-                // Success: Check passed
                 sessionStorage.setItem('currentUserEmail', foundUser.email);
                 window.location.href = 'dashboard.html';
                 return;
@@ -97,14 +98,12 @@ function loginMock() {
         
         // SCENARIO 2: User does NOT have a password (Existing Mock User)
         else {
-            // Success: Ignore the password input and grant access based on email match
             sessionStorage.setItem('currentUserEmail', foundUser.email);
             window.location.href = 'dashboard.html';
             return;
         }
     } 
     
-    // Email not found
     alert("Email not found. Please check your spelling or register.");
 }
 
@@ -121,13 +120,14 @@ function loadDashboard() {
 
     const storedUsersJSON = localStorage.getItem('mockUsers');
     const users = JSON.parse(storedUsersJSON);
-    const currentUser = users.find(user => user.email === userEmail);
+    
+    // The lookup is now robust because the stored 'user.email' is guaranteed to be lowercase.
+    const normalizedSessionEmail = userEmail.toLowerCase();
+    const currentUser = users.find(user => user.email === normalizedSessionEmail);
     
     if (currentUser) {
-        // Function to format currency
         const formatCurrency = (value) => value.toLocaleString('en-US', { minimumFractionDigits: 2 });
 
-        // Update Personal Details
         document.getElementById('dashboardName').textContent = currentUser.firstName + " " + currentUser.lastName;
         document.getElementById('userEmail').textContent = currentUser.email;
         document.getElementById('userCountry').textContent = currentUser.country;
@@ -135,14 +135,11 @@ function loadDashboard() {
         const status = currentUser.pass === null ? 'Existing Mock User' : 'Newly Registered User';
         document.getElementById('userStatus').textContent = status;
 
-        // Update Financial Data
-        // Use optional chaining (?) in case a new user somehow doesn't have these properties (for stability)
         document.getElementById('accBalance').textContent = formatCurrency(currentUser.accountBalance ?? 0.00);
         document.getElementById('totalProfit').textContent = formatCurrency(currentUser.totalProfit ?? 0.00);
         document.getElementById('profitBalance').textContent = formatCurrency(currentUser.profitBalance ?? 0.00);
         
     } else {
-        // If user data is missing (e.g., localStorage corrupted), force logout
         logoutMock();
     }
 }
