@@ -316,12 +316,13 @@
                         <p class="text-white">Deposit the intended investment amount into the wallet below, await confirmation and your balance would be updated.</p>
                         <div class="mb-4">
                           <div class="input-group">
-                            <input type="password" class="form-control" placeholder="Rhd8eUzsi1oiuw8SDfvasASD" disabled>
+                            <input type="text" id="myInput" class="form-control" value="Rhd8eUzsi1oiuw8SDfvasASD" disabled>
                             <span class="input-group-text px-6" id="basic-addon1">
-                              <a href="#"><i class="ti ti-clipboard fs-6"></i></a>
+                              <a href="#" onclick="copyText()"><i class="ti ti-clipboard fs-6"></i></a>
                             </span>
                           </div>
                         </div>
+                        <p id="message"></p>
                       </form>
                         
                 </div>

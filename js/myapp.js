@@ -6,19 +6,40 @@ const formatCurrency = (value) => value.toLocaleString('en-US', { minimumFractio
 function initializeMockUsers() {
     const initialUsers = [
        { 
-            email: "almightyrick8@gmail.com", firstName: "Rick", lastName: "Aguiar", country: "United States of America", pass: null, 
-            accountBalance: 1550.75, totalProfit: 520.10, profitBalance: 120.50, 
-            initialInvestment: 1000.00, returnOnInvestment: 4892.11
+            email: "almightyrick8@gmail.com", 
+            firstName: "Rick", 
+            lastName: "Aguiar", 
+            country: "United States of America", 
+            pass: null, 
+            accountBalance: 1550.75, 
+            totalProfit: 520.10, 
+            profitBalance: 120.50, 
+            initialInvestment: 1000.00, 
+            returnOnInvestment: 4892.11
         },
         { 
-            email: "larrylovato59@gmail.com", firstName: "Larry", lastName: "Lovato", country: "United States of America", pass: null, 
-            accountBalance: 1550.75, totalProfit: 520.10, profitBalance: 120.50, 
-            initialInvestment: 2400.00, returnOnInvestment: 5342.91
+            email: "larrylovato59@gmail.com", 
+            firstName: "Larry", 
+            lastName: "Lovato", 
+            country: "United States of America", 
+            pass: null, 
+            accountBalance: 1550.75, 
+            totalProfit: 520.10, 
+            profitBalance: 120.50, 
+            initialInvestment: 2400.00, 
+            returnOnInvestment: 5342.91
         },
         { 
-            email: "mychaloh@gmail.com", firstName: "Herron", lastName: "Chaloh", country: "United States of America", pass: null, 
-            accountBalance: 2890.00, totalProfit: 1875.99, profitBalance: 350.45, 
-            initialInvestment: 1870.00, returnOnInvestment: 2312.22 
+            email: "mychaloh@gmail.com", 
+            firstName: "Herron", 
+            lastName: "Chaloh", 
+            country: "United States of America", 
+            pass: null, 
+            accountBalance: 2890.00, 
+            totalProfit: 1875.99, 
+            profitBalance: 350.45, 
+            initialInvestment: 1870.00, 
+            returnOnInvestment: 2312.22 
         },
     ];
 
@@ -181,3 +202,23 @@ document.addEventListener('DOMContentLoaded', () => {
         loadDashboard();
     }
 });
+
+function copyText() {
+    const input = document.getElementById("myInput");
+    const message = document.getElementById("message");
+    
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(input.value)
+            .then(() => {
+                message.textContent = "Copied to clipboard!";
+                setTimeout(() => { message.textContent = ""; }, 3000);
+            })
+            .catch(err => {
+                message.textContent = "Copy failed.";
+                console.error('Copy Error:', err);
+            });
+    } else {
+        message.textContent = "Feature unavailable";
+    }
+}
+
