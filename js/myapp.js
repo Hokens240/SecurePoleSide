@@ -1,5 +1,4 @@
 // --- GLOBAL HELPER FUNCTION ---
-// Formats a number into a currency string (e.g., 1550.75 -> "1,550.75")
 const formatCurrency = (value) => value.toLocaleString('en-US', { minimumFractionDigits: 2 });
 
 // --- DATABASE INITIALIZATION ---
@@ -7,41 +6,24 @@ function initializeMockUsers() {
     const initialUsers = [
         { 
             email: "almightyrick8@gmail.com", firstName: "Rick", lastName: "Aguiar", country: "United States of America", pass: null, 
-            accountBalance: 1550.75, totalProfit: 520.10, profitBalance: 120.50, 
-            initialInvestment: 1000.00, returnOnInvestment: 4892.11
+            accountBalance: 1550.75, totalProfit: 520.10, profitBalance: 120.50,
+            initialInvestment: 1000.00, returnOnInvestment: 52.01 
         },
         { 
             email: "larrylovato59@gmail.com", firstName: "Larry", lastName: "Lovato", country: "United States of America", pass: null, 
-            accountBalance: 1550.75, totalProfit: 520.10, profitBalance: 120.50, 
-            initialInvestment: 2400.00, returnOnInvestment: 5342.91
+            accountBalance: 2890.00, totalProfit: 1875.99, profitBalance: 350.45,
+            initialInvestment: 2000.00, returnOnInvestment: 93.80 
         },
         { 
             email: "mychaloh@gmail.com", firstName: "Herron", lastName: "Chaloh", country: "United States of America", pass: null, 
-            accountBalance: 2890.00, totalProfit: 1875.99, profitBalance: 350.45, 
-            initialInvestment: 1870.00, returnOnInvestment: 2312.22 
+            accountBalance: 2890.00, totalProfit: 1875.99, profitBalance: 350.45,
+            initialInvestment: 2000.00, returnOnInvestment: 93.80 
         },
     ];
 
-    // --- SELF-HEALING MECHANISM ---
-    const storedUsersJSON = localStorage.getItem('mockUsers');
-    
-    // Check if data is missing or corrupted
-    if (!storedUsersJSON) {
-        localStorage.setItem('mockUsers', JSON.stringify(initialUsers));
-        console.log("Initial mock database created.");
-        return;
-    }
-
-    try {
-        const users = JSON.parse(storedUsersJSON);
-        if (!Array.isArray(users) || users.length === 0 || !users[0].email) {
-            console.warn("Corrupted data detected. Forcing database reset.");
-            localStorage.setItem('mockUsers', JSON.stringify(initialUsers));
-        }
-    } catch (e) {
-        console.error("Data integrity failed JSON check. Forcing database reset.");
-        localStorage.setItem('mockUsers', JSON.stringify(initialUsers));
-    }
+    // Forcibly writes clean initial data to localStorage on every load.
+    localStorage.removeItem('mockUsers'); 
+    localStorage.setItem('mockUsers', JSON.stringify(initialUsers));
 }
 
 initializeMockUsers();
@@ -84,8 +66,6 @@ function registerMock() {
         returnOnInvestment: 0.00  
     };
     users.push(newUser);
-
-    console.log(`[DEV LOG] New user registered:`, newUser);
 
     localStorage.setItem('mockUsers', JSON.stringify(users));
 
@@ -148,7 +128,7 @@ function loadDashboard() {
     
     if (currentUser) {
         
-        // --- PERSONAL DETAILS (Now using Class lookup and loop) ---
+        // --- PERSONAL DETAILS (Using Class lookup) ---
         const firstName = currentUser.firstName ?? '';
         const lastName = currentUser.lastName ?? '';
         
@@ -163,26 +143,21 @@ function loadDashboard() {
         const status = currentUser.pass === null ? 'Existing Mock User' : 'Newly Registered User';
         document.getElementById('userStatus').textContent = status;
 
-        // --- FINANCIAL DATA UPDATE (Safest Parsing Method Confirmed) ---
-        
+        // --- FINANCIAL DATA UPDATE ---
         const getFormattedValue = (key) => {
             const value = parseFloat(currentUser[key]);
+            
             if (isNaN(value)) {
-                return formatCurrency(0.00);
+                return formatCurrency(0.00); 
             }
             return formatCurrency(value);
         };
         
-        document.getElementById('accBalance').textContent = getFormattedValue('accountBalance');
+        document.getElementById('accountBalance').textContent = getFormattedValue('accountBalance');
         document.getElementById('totalProfit').textContent = getFormattedValue('totalProfit');
         document.getElementById('profitBalance').textContent = getFormattedValue('profitBalance');
-        
         document.getElementById('initialInvestment').textContent = getFormattedValue('initialInvestment');
-        
-        // Return on Investment needs special handling to display the % sign
-        const roiValue = parseFloat(currentUser.returnOnInvestment);
-        document.getElementById('returnOnInvestment').textContent = isNaN(roiValue) ? '0.00' : formatCurrency(roiValue);
-
+        document.getElementById('returnOnInvestment').textContent = getFormattedValue('returnOnInvestment');
         
     } else {
         logoutMock();
@@ -196,9 +171,8 @@ function logoutMock() {
 }
 
 
-// --- ROBUST AUTO-LOAD FIX FOR DASHBOARD (Wait for DOM) ---
+// Ensures dashboard elements are loaded after the DOM is ready.
 document.addEventListener('DOMContentLoaded', () => {
-    // Check for the new class before loading the dashboard
     if (document.querySelector('.user-greeting-name')) {
         loadDashboard();
     }
