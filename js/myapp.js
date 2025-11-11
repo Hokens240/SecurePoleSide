@@ -129,27 +129,32 @@ function loadDashboard() {
     
     if (currentUser) {
         
-        // --- PERSONAL DETAILS ---
-        document.getElementById('dashboardName').textContent = currentUser.firstName + " " + currentUser.lastName;
+        // --- PERSONAL DETAILS (Name Fix Applied) ---
+        // Use a nullish coalescing operator (??) to ensure we always have a string for safety, 
+        // even though our mock data defines these properties.
+        const firstName = currentUser.firstName ?? '';
+        const lastName = currentUser.lastName ?? '';
+        
+        document.getElementById('dashboardName').textContent = firstName + " " + lastName;
+        
         document.getElementById('userEmail').textContent = currentUser.email;
         document.getElementById('userCountry').textContent = currentUser.country;
 
         const status = currentUser.pass === null ? 'Existing Mock User' : 'Newly Registered User';
         document.getElementById('userStatus').textContent = status;
 
-        // --- FINANCIAL DATA UPDATE ---
-        // IMPORTANT FIX: Use parseFloat() to ensure the values are treated as numbers 
-        // before the formatCurrency function (which uses toLocaleString) is called.
+        // --- FINANCIAL DATA UPDATE (parseFloat Fix Confirmed) ---
         document.getElementById('accBalance').textContent = formatCurrency(parseFloat(currentUser.accountBalance) ?? 0.00);
         document.getElementById('totalProfit').textContent = formatCurrency(parseFloat(currentUser.totalProfit) ?? 0.00);
         document.getElementById('profitBalance').textContent = formatCurrency(parseFloat(currentUser.profitBalance) ?? 0.00);
         document.getElementById('returnOnInvestment').textContent = formatCurrency(parseFloat(currentUser.returnOnInvestment) ?? 0.00);
         document.getElementById('initialInvestment').textContent = formatCurrency(parseFloat(currentUser.initialInvestment) ?? 0.00);
         
-        // Debugging log to confirm data type conversion
-        console.log("Dashboard Data Formatted:", {
-            balance: document.getElementById('accBalance').textContent,
-            type: typeof parseFloat(currentUser.accountBalance)
+        // Debugging log to confirm data integrity
+        console.log("Dashboard Data Loaded:", {
+            fullName: firstName + " " + lastName,
+            balanceType: typeof parseFloat(currentUser.accountBalance),
+            balanceValue: document.getElementById('accBalance').textContent
         });
         
     } else {
@@ -165,7 +170,6 @@ function logoutMock() {
 
 
 // --- ROBUST AUTO-LOAD FIX FOR DASHBOARD (Wait for DOM) ---
-// This ensures loadDashboard runs only after the entire HTML structure is ready.
 document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('dashboardName')) {
         loadDashboard();
