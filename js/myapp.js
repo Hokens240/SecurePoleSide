@@ -5,23 +5,26 @@ const formatCurrency = (value) => value.toLocaleString('en-US', { minimumFractio
 // --- DATABASE INITIALIZATION ---
 function initializeMockUsers() {
     const initialUsers = [
-       { 
+        { 
             email: "almightyrick8@gmail.com", firstName: "Rick", lastName: "Aguiar", country: "United States of America", pass: null, 
-            accountBalance: 1550.75, totalProfit: 520.10, profitBalance: 120.50, returnOnInvestment: 200.20, initialInvestment: 240.98 
+            accountBalance: 1550.75, totalProfit: 520.10, profitBalance: 120.50, 
+            initialInvestment: 1000.00, returnOnInvestment: 4892.11
         },
         { 
             email: "larrylovato59@gmail.com", firstName: "Larry", lastName: "Lovato", country: "United States of America", pass: null, 
-            accountBalance: 1550.75, totalProfit: 520.10, profitBalance: 120.50, returnOnInvestment: 220.70, initialInvestment: 192.38 
+            accountBalance: 1550.75, totalProfit: 520.10, profitBalance: 120.50, 
+            initialInvestment: 2400.00, returnOnInvestment: 5342.91
         },
         { 
             email: "mychaloh@gmail.com", firstName: "Herron", lastName: "Chaloh", country: "United States of America", pass: null, 
-            accountBalance: 2890.00, totalProfit: 1875.99, profitBalance: 350.45, returnOnInvestment: 310.10, initialInvestment: 289.72 
+            accountBalance: 2890.00, totalProfit: 1875.99, profitBalance: 350.45, 
+            initialInvestment: 1870.00, returnOnInvestment: 2312.22 
         },
     ];
 
     if (!localStorage.getItem('mockUsers')) {
         localStorage.setItem('mockUsers', JSON.stringify(initialUsers));
-        console.log("Initial mock database loaded.");
+        console.log("Initial mock database loaded with 5 metrics.");
     }
 }
 
@@ -61,8 +64,8 @@ function registerMock() {
         accountBalance: 0.00,
         totalProfit: 0.00,
         profitBalance: 0.00,
-        returnOnInvestment: 0.00,
-        initialInvestment: 0.00
+        initialInvestment: 0.00,
+        returnOnInvestment: 0.00
     };
     users.push(newUser);
 
@@ -130,10 +133,11 @@ function loadDashboard() {
     if (currentUser) {
         
         // --- PERSONAL DETAILS (Name Fix Applied) ---
-        // Use a nullish coalescing operator (??) to ensure we always have a string for safety, 
-        // even though our mock data defines these properties.
         const firstName = currentUser.firstName ?? '';
         const lastName = currentUser.lastName ?? '';
+        
+        // Debugging step: Log the name to console before DOM update
+        console.log(`[DEBUG] Attempting to set name: "${firstName} ${lastName}"`);
         
         document.getElementById('dashboardName').textContent = firstName + " " + lastName;
         
@@ -143,19 +147,26 @@ function loadDashboard() {
         const status = currentUser.pass === null ? 'Existing Mock User' : 'Newly Registered User';
         document.getElementById('userStatus').textContent = status;
 
-        // --- FINANCIAL DATA UPDATE (parseFloat Fix Confirmed) ---
-        document.getElementById('accBalance').textContent = formatCurrency(parseFloat(currentUser.accountBalance) ?? 0.00);
-        document.getElementById('totalProfit').textContent = formatCurrency(parseFloat(currentUser.totalProfit) ?? 0.00);
-        document.getElementById('profitBalance').textContent = formatCurrency(parseFloat(currentUser.profitBalance) ?? 0.00);
-        document.getElementById('returnOnInvestment').textContent = formatCurrency(parseFloat(currentUser.returnOnInvestment) ?? 0.00);
-        document.getElementById('initialInvestment').textContent = formatCurrency(parseFloat(currentUser.initialInvestment) ?? 0.00);
+        // --- FINANCIAL DATA UPDATE (Float Parsing and New Metrics) ---
         
-        // Debugging log to confirm data integrity
-        console.log("Dashboard Data Loaded:", {
-            fullName: firstName + " " + lastName,
-            balanceType: typeof parseFloat(currentUser.accountBalance),
-            balanceValue: document.getElementById('accBalance').textContent
-        });
+        // Use a function to safely parse and format, addressing the recurring bug
+        const getFormattedValue = (key) => {
+            // Explicitly ensure value is a number, falling back to 0 if NaN
+            const value = parseFloat(currentUser[key]);
+            if (isNaN(value)) {
+                console.error(`[DEBUG] Failed to parse number for key: ${key}. Value was: ${currentUser[key]}`);
+                return formatCurrency(0.00);
+            }
+            return formatCurrency(value);
+        };
+        
+        document.getElementById('accBalance').textContent = getFormattedValue('accountBalance');
+        document.getElementById('totalProfit').textContent = getFormattedValue('totalProfit');
+        document.getElementById('profitBalance').textContent = getFormattedValue('profitBalance');
+        
+        // NEW METRICS
+        document.getElementById('initialInvestment').textContent = getFormattedValue('initialInvestment');
+        document.getElementById('returnOnInvestment').textContent = getFormattedValue('returnOnInvestment');
         
     } else {
         logoutMock();
