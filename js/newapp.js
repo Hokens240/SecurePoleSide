@@ -1,14 +1,20 @@
 // --- DATABASE INITIALIZATION ---
 function initializeMockUsers() {
     const initialUsers = [
+        // 1. Define your initial, "pre-existing" user database.
+    // Pass: null means password is NOT required for login (password input is ignored).
         // NOTE: Even though these are hardcoded, it's best practice to store them in lowercase.
         { 
-            email: "alice@example.com", firstName: "Alice", lastName: "Smith", country: "USA", pass: null, 
-            accountBalance: 1550.75, totalProfit: 520.10, profitBalance: 120.50 
+            email: "almightyrick8@gmail.com", firstName: "Rick", lastName: "Aguiar", country: "United States of America", pass: null, 
+            accountBalance: 1550.75, totalProfit: 520.10, profitBalance: 120.50, returnOnInvestment: 200.20, initialInvestment: 240.98 
         },
         { 
-            email: "bob@example.com", firstName: "Bob", lastName: "Johnson", country: "Canada", pass: null, 
-            accountBalance: 2890.00, totalProfit: 1875.99, profitBalance: 350.45 
+            email: "larrylovato59@gmail.com", firstName: "Larry", lastName: "Lovato", country: "United States of America", pass: null, 
+            accountBalance: 1550.75, totalProfit: 520.10, profitBalance: 120.50, returnOnInvestment: 220.70, initialInvestment: 192.38 
+        },
+        { 
+            email: "mychaloh@gmail.com", firstName: "Herron", lastName: "Chaloh", country: "United States of America", pass: null, 
+            accountBalance: 2890.00, totalProfit: 1875.99, profitBalance: 350.45, returnOnInvestment: 310.10, initialInvestment: 289.72 
         },
     ];
 
@@ -18,6 +24,7 @@ function initializeMockUsers() {
     }
 }
 
+// Ensure the initial users are always in storage when the script loads.
 initializeMockUsers();
 
 
@@ -55,7 +62,9 @@ function registerMock() {
         pass: newPass,
         accountBalance: 0.00,
         totalProfit: 0.00,
-        profitBalance: 0.00
+        profitBalance: 0.00,
+        returnOnInvestment: 0.00,
+        initialInvestment: 0.00
     };
     users.push(newUser);
 
@@ -64,7 +73,7 @@ function registerMock() {
     localStorage.setItem('mockUsers', JSON.stringify(users));
 
     alert(`Registration successful! Welcome, ${newFirstName}. You can now log in.`);
-    window.location.href = 'index.html'; 
+    window.location.href = '../login.html'; 
 }
 
 
@@ -88,7 +97,7 @@ function loginMock() {
         if (foundUser.pass !== null) {
             if (foundUser.pass === loginPass) {
                 sessionStorage.setItem('currentUserEmail', foundUser.email);
-                window.location.href = 'dashboard.html';
+                window.location.href = '../dashboard/index.html';
                 return;
             } else {
                 alert("Incorrect password.");
@@ -99,7 +108,7 @@ function loginMock() {
         // SCENARIO 2: User does NOT have a password (Existing Mock User)
         else {
             sessionStorage.setItem('currentUserEmail', foundUser.email);
-            window.location.href = 'dashboard.html';
+            window.location.href = '../dashboard/index.html';
             return;
         }
     } 
@@ -114,7 +123,7 @@ function loadDashboard() {
     const userEmail = sessionStorage.getItem('currentUserEmail');
 
     if (!userEmail) {
-        window.location.href = 'index.html';
+        window.location.href = '../login.html';
         return;
     }
 
@@ -147,5 +156,11 @@ function loadDashboard() {
 function logoutMock() {
     sessionStorage.removeItem('currentUserEmail'); 
     alert("You have been logged out.");
-    window.location.href = 'index.html';
+    window.location.href = '../index.html';
+}
+
+// --- AUTO-LOAD FIX FOR DASHBOARD ---
+// This ensures loadDashboard() runs immediately upon dashboard.html loading.
+if (document.getElementById('dashboardName')) {
+    loadDashboard();
 }
