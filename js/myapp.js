@@ -1,29 +1,31 @@
 // --- GLOBAL HELPER FUNCTION ---
+// Formats a number into a currency string (e.g., 1550.75 -> "1,550.75")
 const formatCurrency = (value) => value.toLocaleString('en-US', { minimumFractionDigits: 2 });
 
 // --- DATABASE INITIALIZATION ---
 function initializeMockUsers() {
     const initialUsers = [
-        { 
+       { 
             email: "almightyrick8@gmail.com", firstName: "Rick", lastName: "Aguiar", country: "United States of America", pass: null, 
-            accountBalance: 1550.75, totalProfit: 520.10, profitBalance: 120.50,
-            initialInvestment: 1000.00, returnOnInvestment: 52.01 
+            accountBalance: 1550.75, totalProfit: 520.10, profitBalance: 120.50, 
+            initialInvestment: 1000.00, returnOnInvestment: 4892.11
         },
         { 
             email: "larrylovato59@gmail.com", firstName: "Larry", lastName: "Lovato", country: "United States of America", pass: null, 
-            accountBalance: 2890.00, totalProfit: 1875.99, profitBalance: 350.45,
-            initialInvestment: 2000.00, returnOnInvestment: 93.80 
+            accountBalance: 1550.75, totalProfit: 520.10, profitBalance: 120.50, 
+            initialInvestment: 2400.00, returnOnInvestment: 5342.91
         },
         { 
             email: "mychaloh@gmail.com", firstName: "Herron", lastName: "Chaloh", country: "United States of America", pass: null, 
-            accountBalance: 2890.00, totalProfit: 1875.99, profitBalance: 350.45,
-            initialInvestment: 2000.00, returnOnInvestment: 93.80 
+            accountBalance: 2890.00, totalProfit: 1875.99, profitBalance: 350.45, 
+            initialInvestment: 1870.00, returnOnInvestment: 2312.22 
         },
     ];
 
-    // Forcibly writes clean initial data to localStorage on every load.
-    localStorage.removeItem('mockUsers'); 
-    localStorage.setItem('mockUsers', JSON.stringify(initialUsers));
+    if (!localStorage.getItem('mockUsers')) {
+        localStorage.setItem('mockUsers', JSON.stringify(initialUsers));
+        console.log("Initial mock database loaded.");
+    }
 }
 
 initializeMockUsers();
@@ -62,10 +64,12 @@ function registerMock() {
         accountBalance: 0.00,
         totalProfit: 0.00,
         profitBalance: 0.00,
-        initialInvestment: 0.00, 
-        returnOnInvestment: 0.00  
+        returnOnInvestment: 0.00,
+        initialInvestment: 0.00
     };
     users.push(newUser);
+
+    console.log(`[DEV LOG] New user registered:`, newUser);
 
     localStorage.setItem('mockUsers', JSON.stringify(users));
 
