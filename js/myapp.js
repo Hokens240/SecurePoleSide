@@ -22,9 +22,25 @@ function initializeMockUsers() {
         },
     ];
 
-    if (!localStorage.getItem('mockUsers')) {
+    // --- SELF-HEALING MECHANISM ---
+    const storedUsersJSON = localStorage.getItem('mockUsers');
+    
+    // Check if data is missing or corrupted
+    if (!storedUsersJSON) {
         localStorage.setItem('mockUsers', JSON.stringify(initialUsers));
-        console.log("Initial mock database loaded with 5 metrics.");
+        console.log("Initial mock database created.");
+        return;
+    }
+
+    try {
+        const users = JSON.parse(storedUsersJSON);
+        if (!Array.isArray(users) || users.length === 0 || !users[0].email) {
+            console.warn("Corrupted data detected. Forcing database reset.");
+            localStorage.setItem('mockUsers', JSON.stringify(initialUsers));
+        }
+    } catch (e) {
+        console.error("Data integrity failed JSON check. Forcing database reset.");
+        localStorage.setItem('mockUsers', JSON.stringify(initialUsers));
     }
 }
 
@@ -64,8 +80,8 @@ function registerMock() {
         accountBalance: 0.00,
         totalProfit: 0.00,
         profitBalance: 0.00,
-        initialInvestment: 0.00,
-        returnOnInvestment: 0.00
+        initialInvestment: 0.00, 
+        returnOnInvestment: 0.00  
     };
     users.push(newUser);
 
@@ -132,14 +148,14 @@ function loadDashboard() {
     
     if (currentUser) {
         
-        // --- PERSONAL DETAILS (Name Fix Applied) ---
+        // --- PERSONAL DETAILS (Now using Class lookup and loop) ---
         const firstName = currentUser.firstName ?? '';
         const lastName = currentUser.lastName ?? '';
         
-        // Debugging step: Log the name to console before DOM update
-        console.log(`[DEBUG] Attempting to set name: "${firstName} ${lastName}"`);
-        
-        document.getElementById('dashboardName').textContent = firstName + " " + lastName;
+        const greetingElements = document.getElementsByClassName('user-greeting-name');
+        for (let i = 0; i < greetingElements.length; i++) {
+            greetingElements[i].textContent = firstName + " " + lastName;
+        }
         
         document.getElementById('userEmail').textContent = currentUser.email;
         document.getElementById('userCountry').textContent = currentUser.country;
@@ -147,14 +163,11 @@ function loadDashboard() {
         const status = currentUser.pass === null ? 'Existing Mock User' : 'Newly Registered User';
         document.getElementById('userStatus').textContent = status;
 
-        // --- FINANCIAL DATA UPDATE (Float Parsing and New Metrics) ---
+        // --- FINANCIAL DATA UPDATE (Safest Parsing Method Confirmed) ---
         
-        // Use a function to safely parse and format, addressing the recurring bug
         const getFormattedValue = (key) => {
-            // Explicitly ensure value is a number, falling back to 0 if NaN
             const value = parseFloat(currentUser[key]);
             if (isNaN(value)) {
-                console.error(`[DEBUG] Failed to parse number for key: ${key}. Value was: ${currentUser[key]}`);
                 return formatCurrency(0.00);
             }
             return formatCurrency(value);
@@ -163,8 +176,13 @@ function loadDashboard() {
         document.getElementById('accBalance').textContent = getFormattedValue('accountBalance');
         document.getElementById('totalProfit').textContent = getFormattedValue('totalProfit');
         document.getElementById('profitBalance').textContent = getFormattedValue('profitBalance');
+        
         document.getElementById('initialInvestment').textContent = getFormattedValue('initialInvestment');
-        document.getElementById('returnOnInvestment').textContent = getFormattedValue('returnOnInvestment');
+        
+        // Return on Investment needs special handling to display the % sign
+        const roiValue = parseFloat(currentUser.returnOnInvestment);
+        document.getElementById('returnOnInvestment').textContent = isNaN(roiValue) ? '0.00' : formatCurrency(roiValue);
+
         
     } else {
         logoutMock();
@@ -180,7 +198,8 @@ function logoutMock() {
 
 // --- ROBUST AUTO-LOAD FIX FOR DASHBOARD (Wait for DOM) ---
 document.addEventListener('DOMContentLoaded', () => {
-    if (document.getElementById('dashboardName')) {
+    // Check for the new class before loading the dashboard
+    if (document.querySelector('.user-greeting-name')) {
         loadDashboard();
     }
 });
