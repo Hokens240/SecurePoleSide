@@ -163,8 +163,6 @@ function loadDashboard() {
         document.getElementById('accBalance').textContent = getFormattedValue('accountBalance');
         document.getElementById('totalProfit').textContent = getFormattedValue('totalProfit');
         document.getElementById('profitBalance').textContent = getFormattedValue('profitBalance');
-        
-        // NEW METRICS
         document.getElementById('initialInvestment').textContent = getFormattedValue('initialInvestment');
         document.getElementById('returnOnInvestment').textContent = getFormattedValue('returnOnInvestment');
         
