@@ -31,7 +31,7 @@ function initializeMockUsers() {
             lastName: "Chaloh", 
             country: "United States of America", 
             pass: null, 
-            accountBalance: "1550.75", 
+            accountBalance: "1350.75", 
             totalProfit: "520.10", 
             profitBalance: "120.50", 
             initialInvestment: "1000.00", 
@@ -39,10 +39,32 @@ function initializeMockUsers() {
         },
     ];
 
-    if (!localStorage.getItem('mockUsers')) {
-        localStorage.setItem('mockUsers', JSON.stringify(initialUsers));
-        console.log("Initial mock database loaded.");
-    }
+    // 1. Load existing data, or start with an empty array if storage is truly empty.
+    const existingUsersJSON = localStorage.getItem('mockUsers');
+    const existingUsers = existingUsersJSON ? JSON.parse(existingUsersJSON) : [];
+
+    // 2. Create a Map for easy merging/lookup, preserving existing users first.
+    // Map: { "email": userObject, ... }
+    const userMap = new Map();
+
+    // Preserve all existing users (registered users).
+    existingUsers.forEach(user => {
+        // Use normalized email as the key
+        userMap.set(user.email.toLowerCase(), user); 
+    });
+    
+    // 3. Overwrite mock users with clean, fresh data.
+    // This ensures Alice and Bob always have the correct metrics, even if they existed previously.
+    initialUsers.forEach(mockUser => {
+        // Use normalized email as the key
+        userMap.set(mockUser.email.toLowerCase(), mockUser); 
+    });
+
+    // 4. Save the merged list back to storage.
+    const mergedUsers = Array.from(userMap.values());
+    localStorage.setItem('mockUsers', JSON.stringify(mergedUsers));
+
+    console.log("Mock data synchronized: Alice and Bob reset to latest definitions, registered users preserved.");
 }
 
 initializeMockUsers();
