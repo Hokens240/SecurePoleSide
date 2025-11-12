@@ -170,7 +170,7 @@
                 <!-- Logout Now -->
                 <!-- ---------------------------------- -->
                 <li class="sidebar-item">
-                  <a class="sidebar-link" href="#" id="get-url" aria-expanded="false">
+                  <a class="sidebar-link" href="#" id="get-url" aria-expanded="false" onclick="logoutMock()">
                     <iconify-icon icon="hugeicons:logout-04"></iconify-icon>
                     <span class="hide-menu">Logout Now</span>
                   </a>
@@ -241,15 +241,15 @@
                           <img src="assets/img/people.png" class="rounded-circle" width="56" height="56"
                             alt="blackgold-img" />
                           <div>
-                            <h5 class="mb-0 fs-12">David McMichael <span class="text-success fs-11">Investor</span>
+                            <h5 class="mb-0 fs-12"><span class="user-greeting-name"></span> <span class="text-success fs-11">Investor</span>
                             </h5>
                             <p class="mb-0 text-dark">
-                              david@wrappixel.com
+                              <span id="userEmail"></span>
                             </p>
                           </div>
                         </div>
                         <div class="message-body">
-                          <a href="#" class="p-2 dropdown-item h6 rounded-1">
+                          <a href="#" class="p-2 dropdown-item h6 rounded-1" onclick="logoutMock()">
                             Sign Out
                           </a>
                         </div>

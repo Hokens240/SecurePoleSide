@@ -208,4 +208,3 @@ function copyText() {
         message.textContent = "Feature unavailable";
     }
 }
-
