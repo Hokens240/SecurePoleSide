@@ -159,29 +159,17 @@ function loadDashboard() {
         }
         
         document.getElementById('userEmail').textContent = currentUser.email;
-        //document.getElementById('userCountry').textContent = currentUser.country;
+        document.getElementById('userCountry').textContent = currentUser.country;
 
         const status = currentUser.pass === null ? 'Existing Mock User' : 'Newly Registered User';
-        //document.getElementById('userStatus').textContent = status;
+        document.getElementById('userStatus').textContent = status;
 
-        // --- FINANCIAL DATA UPDATE (using Data Attributes) ---
-        // Queries all metric elements and updates their text content based on their data-metric attribute.
-        const metricElements = document.querySelectorAll('.financial-metric');
-        
-        metricElements.forEach(element => {
-            const metricKey = element.getAttribute('data-metric');
-            if (metricKey && currentUser[metricKey] !== undefined) {
-                // Assigns the pre-formatted string directly.
-                element.textContent = currentUser[metricKey];
-                
-                // CONSOLE LOG ADDED HERE FOR DEBUGGING
-                console.log(`[Metric Update] Key: ${metricKey}, Value: ${currentUser[metricKey]}`);
-
-            } else {
-                element.textContent = "N/A";
-                console.log(`[Metric Update] Key: ${metricKey}, Value: N/A (Key not found in user object)`);
-            }
-        });
+        // --- FINANCIAL DATA UPDATE ---
+        document.getElementById('accountBalance').textContent = currentUser.accountBalance;
+        document.getElementById('totalProfit').textContent = currentUser.totalProfit;
+        document.getElementById('profitBalance').textContent = currentUser.profitBalance;
+        document.getElementById('initialInvestment').textContent = currentUser.initialInvestment;
+        document.getElementById('returnOnInvestment').textContent = currentUser.returnOnInvestment;
         
     } else {
         logoutMock();
