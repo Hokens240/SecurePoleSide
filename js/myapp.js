@@ -1,21 +1,18 @@
-// --- FUNCTIONS ---
-
-const formatCurrency = (value) => value.toLocaleString('en-US', { minimumFractionDigits: 2 });
-
 // --- DATABASE INITIALIZATION ---
 function initializeMockUsers() {
+    // Financial values for all users are stored as pre-formatted strings to guarantee display consistency.
     const initialUsers = [
-       { 
+        { 
             email: "almightyrick8@gmail.com", 
             firstName: "Rick", 
             lastName: "Aguiar", 
             country: "United States of America", 
             pass: null, 
-            accountBalance: 1550.75, 
-            totalProfit: 520.10, 
-            profitBalance: 120.50, 
-            initialInvestment: 1000.00, 
-            returnOnInvestment: 4892.11
+            accountBalance: "1,550.75", 
+            totalProfit: "520.10", 
+            profitBalance: "120.50", 
+            initialInvestment: "1,000.00", 
+            returnOnInvestment: "4,892.11"
         },
         { 
             email: "larrylovato59@gmail.com", 
@@ -23,11 +20,11 @@ function initializeMockUsers() {
             lastName: "Lovato", 
             country: "United States of America", 
             pass: null, 
-            accountBalance: 1550.75, 
-            totalProfit: 520.10, 
-            profitBalance: 120.50, 
-            initialInvestment: 2400.00, 
-            returnOnInvestment: 5342.91
+            accountBalance: "1,550.75", 
+            totalProfit: "520.10", 
+            profitBalance: "120.50", 
+            initialInvestment: "2,400.00", 
+            returnOnInvestment: "5,342.91"
         },
         { 
             email: "mychaloh@gmail.com", 
@@ -35,18 +32,17 @@ function initializeMockUsers() {
             lastName: "Chaloh", 
             country: "United States of America", 
             pass: null, 
-            accountBalance: 2890.00, 
-            totalProfit: 1875.99, 
-            profitBalance: 350.45, 
-            initialInvestment: 1870.00, 
-            returnOnInvestment: 2312.22 
+            accountBalance: "2,890.00", 
+            totalProfit: "1,875.99", 
+            profitBalance: "350.45", 
+            initialInvestment: "1,870.00", 
+            returnOnInvestment: "2,312.22" 
         },
     ];
 
-    if (!localStorage.getItem('mockUsers')) {
-        localStorage.setItem('mockUsers', JSON.stringify(initialUsers));
-        console.log("Initial mock database loaded.");
-    }
+    // Forcibly writes clean initial data to localStorage on every load to prevent data corruption.
+    localStorage.removeItem('mockUsers'); 
+    localStorage.setItem('mockUsers', JSON.stringify(initialUsers));
 }
 
 initializeMockUsers();
@@ -76,21 +72,20 @@ function registerMock() {
         return;
     }
 
+    // New users initialize all metrics as pre-formatted string "0.00".
     const newUser = { 
         email: normalizedEmail, 
         firstName: newFirstName, 
         lastName: newLastName, 
         country: newCountry, 
         pass: newPass, 
-        accountBalance: 0.00,
-        totalProfit: 0.00,
-        profitBalance: 0.00,
-        returnOnInvestment: 0.00,
-        initialInvestment: 0.00
+        accountBalance: "0.00",
+        totalProfit: "0.00",
+        profitBalance: "0.00",
+        initialInvestment: "0.00", 
+        returnOnInvestment: "0.00"  
     };
     users.push(newUser);
-
-    console.log(`[DEV LOG] New user registered:`, newUser);
 
     localStorage.setItem('mockUsers', JSON.stringify(users));
 
@@ -114,6 +109,7 @@ function loginMock() {
     if (foundUser) {
         
         if (foundUser.pass !== null) {
+            // Check password only for newly registered users.
             if (foundUser.pass === loginPass) {
                 sessionStorage.setItem('currentUserEmail', foundUser.email);
                 window.location.href = '../dashboard/index.html';
@@ -124,6 +120,7 @@ function loginMock() {
             }
         } 
         
+        // Allow mock users (pass: null) to log in without a password.
         else {
             sessionStorage.setItem('currentUserEmail', foundUser.email);
             window.location.href = '../dashboard/index.html';
@@ -153,10 +150,11 @@ function loadDashboard() {
     
     if (currentUser) {
         
-        // --- PERSONAL DETAILS (Using Class lookup) ---
+        // --- PERSONAL DETAILS ---
         const firstName = currentUser.firstName ?? '';
         const lastName = currentUser.lastName ?? '';
         
+        // Update all elements with the user-greeting-name class.
         const greetingElements = document.getElementsByClassName('user-greeting-name');
         for (let i = 0; i < greetingElements.length; i++) {
             greetingElements[i].textContent = firstName + " " + lastName;
@@ -169,20 +167,12 @@ function loadDashboard() {
         document.getElementById('userStatus').textContent = status;
 
         // --- FINANCIAL DATA UPDATE ---
-        const getFormattedValue = (key) => {
-            const value = parseFloat(currentUser[key]);
-            
-            if (isNaN(value)) {
-                return formatCurrency(0.00); 
-            }
-            return formatCurrency(value);
-        };
-        
-        document.getElementById('accountBalance').textContent = getFormattedValue('accountBalance');
-        document.getElementById('totalProfit').textContent = getFormattedValue('totalProfit');
-        document.getElementById('profitBalance').textContent = getFormattedValue('profitBalance');
-        document.getElementById('initialInvestment').textContent = getFormattedValue('initialInvestment');
-        document.getElementById('returnOnInvestment').textContent = getFormattedValue('returnOnInvestment');
+        // Direct string access is used for simple, reliable display of pre-formatted metrics.
+        document.getElementById('accountBalance').textContent = currentUser.accountBalance ?? "0.00";
+        document.getElementById('totalProfit').textContent = currentUser.totalProfit ?? "0.00";
+        document.getElementById('profitBalance').textContent = currentUser.profitBalance ?? "0.00";
+        document.getElementById('initialInvestment').textContent = currentUser.initialInvestment ?? "0.00";
+        document.getElementById('returnOnInvestment').textContent = currentUser.returnOnInvestment ?? "0.00";
         
     } else {
         logoutMock();
@@ -196,13 +186,14 @@ function logoutMock() {
 }
 
 
-// Ensures dashboard elements are loaded after the DOM is ready.
+// Ensures loadDashboard runs only after the entire dashboard HTML structure is available.
 document.addEventListener('DOMContentLoaded', () => {
     if (document.querySelector('.user-greeting-name')) {
         loadDashboard();
     }
 });
 
+//Copy Wallet Section
 function copyText() {
     const input = document.getElementById("myInput");
     const message = document.getElementById("message");
@@ -221,4 +212,3 @@ function copyText() {
         message.textContent = "Feature unavailable";
     }
 }
-
