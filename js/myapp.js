@@ -7,11 +7,11 @@ function initializeMockUsers() {
             lastName: "Aguiar", 
             country: "United States of America", 
             pass: null, 
-            accountBalance: 1550.75, 
-            totalProfit: 520.10, 
-            profitBalance: 120.50, 
-            initialInvestment: 1000.00, 
-            returnOnInvestment: 4892.11
+            accountBalance: "1550.75", 
+            totalProfit: "520.10", 
+            profitBalance: "120.50", 
+            initialInvestment: "1000.00", 
+            returnOnInvestment: "4892.11"
         },
         { 
             email: "larrylovato59@gmail.com", 
@@ -19,11 +19,11 @@ function initializeMockUsers() {
             lastName: "Lovato", 
             country: "United States of America", 
             pass: null, 
-            accountBalance: 1550.75, 
-            totalProfit: 520.10, 
-            profitBalance: 120.50, 
-            initialInvestment: 2400.00, 
-            returnOnInvestment: 5342.91
+            accountBalance: "1550.75", 
+            totalProfit: "520.10", 
+            profitBalance: "120.50", 
+            initialInvestment: "1000.00", 
+            returnOnInvestment: "4892.11"
         },
         { 
             email: "mychaloh@gmail.com", 
@@ -31,17 +31,18 @@ function initializeMockUsers() {
             lastName: "Chaloh", 
             country: "United States of America", 
             pass: null, 
-            accountBalance: 2890.00, 
-            totalProfit: 1875.99, 
-            profitBalance: 350.45, 
-            initialInvestment: 1870.00, 
-            returnOnInvestment: 2312.22 
+            accountBalance: "1550.75", 
+            totalProfit: "520.10", 
+            profitBalance: "120.50", 
+            initialInvestment: "1000.00", 
+            returnOnInvestment: "4892.11"
         },
     ];
 
-     // Forcibly writes clean initial data to localStorage on every load to prevent data corruption.
-    localStorage.removeItem('mockUsers'); 
-    localStorage.setItem('mockUsers', JSON.stringify(initialUsers));
+    if (!localStorage.getItem('mockUsers')) {
+        localStorage.setItem('mockUsers', JSON.stringify(initialUsers));
+        console.log("Initial mock database loaded.");
+    }
 }
 
 initializeMockUsers();
@@ -148,7 +149,7 @@ function loadDashboard() {
     
     if (currentUser) {
         
-        // --- PERSONAL DETAILS (Using Class lookup) ---
+        // --- PERSONAL DETAILS ---
         const firstName = currentUser.firstName ?? '';
         const lastName = currentUser.lastName ?? '';
         
@@ -164,7 +165,6 @@ function loadDashboard() {
         document.getElementById('userStatus').textContent = status;
 
         // --- FINANCIAL DATA UPDATE ---
-        // Direct string access is used for simple, reliable display of pre-formatted metrics.
         document.getElementById('accountBalance').textContent = currentUser.accountBalance;
         document.getElementById('totalProfit').textContent = currentUser.totalProfit;
         document.getElementById('profitBalance').textContent = currentUser.profitBalance;
