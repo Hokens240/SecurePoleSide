@@ -109,7 +109,6 @@ function loginMock() {
     if (foundUser) {
         
         if (foundUser.pass !== null) {
-            // Check password only for newly registered users.
             if (foundUser.pass === loginPass) {
                 sessionStorage.setItem('currentUserEmail', foundUser.email);
                 window.location.href = '../dashboard/index.html';
@@ -120,7 +119,6 @@ function loginMock() {
             }
         } 
         
-        // Allow mock users (pass: null) to log in without a password.
         else {
             sessionStorage.setItem('currentUserEmail', foundUser.email);
             window.location.href = '../dashboard/index.html';
