@@ -7,11 +7,11 @@ function initializeMockUsers() {
             lastName: "Aguiar", 
             country: "United States of America", 
             pass: null, 
-            accountBalance: "1550.75", 
-            totalProfit: "520.10", 
-            profitBalance: "120.50", 
-            initialInvestment: "1000.00", 
-            returnOnInvestment: "4892.11"
+            accountBalance: "49,100", 
+            totalProfit: "49,100", 
+            profitBalance: "49,100", 
+            initialInvestment: "0.00", 
+            returnOnInvestment: "49,100"
         },
         { 
             email: "larrylovato59@gmail.com", 
@@ -19,11 +19,11 @@ function initializeMockUsers() {
             lastName: "Lovato", 
             country: "United States of America", 
             pass: null, 
-            accountBalance: "1550.75", 
-            totalProfit: "520.10", 
-            profitBalance: "120.50", 
-            initialInvestment: "1000.00", 
-            returnOnInvestment: "4892.11"
+            accountBalance: "1,439,000", 
+            totalProfit: "1,439,000", 
+            profitBalance: "1,439,000", 
+            initialInvestment: "0.00", 
+            returnOnInvestment: "1,439,000"
         },
         { 
             email: "mychaloh@gmail.com", 
@@ -31,11 +31,11 @@ function initializeMockUsers() {
             lastName: "Chaloh", 
             country: "United States of America", 
             pass: null, 
-            accountBalance: "1350.75", 
-            totalProfit: "520.10", 
-            profitBalance: "120.50", 
-            initialInvestment: "1000.00", 
-            returnOnInvestment: "4892.11"
+            accountBalance: "16,800", 
+            totalProfit: "16,800", 
+            profitBalance: "16,800", 
+            initialInvestment: "0.00", 
+            returnOnInvestment: "16,800"
         },
     ];
 
