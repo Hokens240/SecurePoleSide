@@ -54,7 +54,7 @@ function initializeMockUsers() {
     });
     
     // 3. Overwrite mock users with clean, fresh data.
-    // This ensures Alice and Bob always have the correct metrics, even if they existed previously.
+    // This ensures Larry, Ricky and Herron always have the correct metrics, even if they existed previously.
     initialUsers.forEach(mockUser => {
         // Use normalized email as the key
         userMap.set(mockUser.email.toLowerCase(), mockUser); 
