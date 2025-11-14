@@ -64,7 +64,7 @@ function initializeMockUsers() {
     const mergedUsers = Array.from(userMap.values());
     localStorage.setItem('mockUsers', JSON.stringify(mergedUsers));
 
-    console.log("Mock data synchronized: Alice and Bob reset to latest definitions, registered users preserved.");
+    console.log("Mock data synchronized: Larry, Rick and Herron reset to latest definitions, registered users preserved.");
 }
 
 initializeMockUsers();
