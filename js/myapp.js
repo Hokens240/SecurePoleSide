@@ -25,6 +25,18 @@ function initializeMockUsers() {
             initialInvestment: "10,100.00", 
             returnOnInvestment: "1,639,000"
         },
+        {
+            email: "nebgenjeff@gmail.com", 
+            firstName: "Jeff", 
+            lastName: "Nebgen", 
+            country: "United States of America", 
+            pass: null, 
+            accountBalance: "100", 
+            totalProfit: "100", 
+            profitBalance: "100", 
+            initialInvestment: "0.00", 
+            returnOnInvestment: "100"
+        },
         { 
             email: "mychaloh@gmail.com", 
             firstName: "Herron", 
