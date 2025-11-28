@@ -19,11 +19,11 @@ function initializeMockUsers() {
             lastName: "Lovato", 
             country: "United States of America", 
             pass: null, 
-            accountBalance: "1,539,000", 
-            totalProfit: "1,539,000", 
-            profitBalance: "1,539,000", 
+            accountBalance: "1,639,000", 
+            totalProfit: "1,639,000", 
+            profitBalance: "1,639,000", 
             initialInvestment: "10,100.00", 
-            returnOnInvestment: "1,539,000"
+            returnOnInvestment: "1,639,000"
         },
         { 
             email: "mychaloh@gmail.com", 
