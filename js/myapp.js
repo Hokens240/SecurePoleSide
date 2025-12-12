@@ -19,11 +19,11 @@ function initializeMockUsers() {
             lastName: "Lovato", 
             country: "United States of America", 
             pass: null, 
-            accountBalance: "1,689,000", 
-            totalProfit: "1,689,000", 
-            profitBalance: "1,689,000", 
+            accountBalance: "1,739,000", 
+            totalProfit: "1,739,000", 
+            profitBalance: "1,739,000", 
             initialInvestment: "10,100.00", 
-            returnOnInvestment: "1,689,000"
+            returnOnInvestment: "1,739,000"
         },
         {
             email: "nebgenjeff@gmail.com", 
@@ -31,11 +31,11 @@ function initializeMockUsers() {
             lastName: "Nebgen", 
             country: "United States of America", 
             pass: null, 
-            accountBalance: "200", 
-            totalProfit: "200", 
-            profitBalance: "200", 
+            accountBalance: "300", 
+            totalProfit: "300", 
+            profitBalance: "300", 
             initialInvestment: "00.00", 
-            returnOnInvestment: "200"
+            returnOnInvestment: "300"
         },
         { 
             email: "mychaloh@gmail.com", 
