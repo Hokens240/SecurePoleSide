@@ -31,7 +31,7 @@ function initializeMockUsers() {
             lastName: "Nebgen", 
             country: "United States of America", 
             pass: null, 
-            accountBalance: "5500", 
+            accountBalance: "500", 
             totalProfit: "500", 
             profitBalance: "500", 
             initialInvestment: "00.00", 
