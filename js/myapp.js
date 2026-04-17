@@ -31,11 +31,11 @@ function initializeMockUsers() {
             lastName: "Nebgen", 
             country: "United States of America", 
             pass: null, 
-            accountBalance: "4100", 
-            totalProfit: "4100", 
-            profitBalance: "4100", 
+            accountBalance: "4400", 
+            totalProfit: "4400", 
+            profitBalance: "4400", 
             initialInvestment: "00.00", 
-            returnOnInvestment: "4100"
+            returnOnInvestment: "4400"
         },
         { 
             email: "mychaloh@gmail.com", 
