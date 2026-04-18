@@ -7,7 +7,7 @@ function initializeMockUsers() {
             lastName: "Aguiar", 
             country: "United States of America", 
             pass: null,
-            status: "frozen", 
+            status: "active", 
             accountBalance: "49,100", 
             totalProfit: "49,100", 
             profitBalance: "49,100", 
@@ -52,6 +52,19 @@ function initializeMockUsers() {
             profitBalance: "22,000", 
             initialInvestment: "00.00", 
             returnOnInvestment: "22,000"
+        },
+        { 
+            email: "bigemma2026@gmail.com", 
+            firstName: "Big", 
+            lastName: "Emma", 
+            country: "United States of America", 
+            pass: null,
+            status: "frozen", 
+            accountBalance: "1000", 
+            totalProfit: "1000", 
+            profitBalance: "1000", 
+            initialInvestment: "00.00", 
+            returnOnInvestment: "1000"
         },
     ];
 
