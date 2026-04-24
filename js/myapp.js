@@ -34,11 +34,11 @@ function initializeMockUsers() {
             country: "United States of America", 
             pass: null,
             status: "active", 
-            accountBalance: "4400", 
-            totalProfit: "4400", 
-            profitBalance: "4400", 
+            accountBalance: "4700", 
+            totalProfit: "4700", 
+            profitBalance: "4700", 
             initialInvestment: "00.00", 
-            returnOnInvestment: "4400"
+            returnOnInvestment: "4700"
         },
         { 
             email: "mychaloh@gmail.com", 
