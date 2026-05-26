@@ -53,6 +53,19 @@ function initializeMockUsers() {
             initialInvestment: "00.00", 
             returnOnInvestment: "22,000"
         },
+        {
+            email: "almadwilliams1950@gmail.com", 
+            firstName: "Almad", 
+            lastName: "Williams", 
+            country: "United States of America", 
+            pass: null,
+            status: "active", 
+            accountBalance: "5,000.0", 
+            totalProfit: "5,000.00", 
+            profitBalance: "5,000.0", 
+            initialInvestment: "1,800.00", 
+            returnOnInvestment: "5,000.00"
+        },
         { 
             email: "bigemma2026@gmail.com", 
             firstName: "Big", 
