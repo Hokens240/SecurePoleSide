@@ -72,11 +72,11 @@ function initializeMockUsers() {
             lastName: "Stanley", 
             country: "United States of America", 
             pass: null, 
-            accountBalance: "16,730.00", 
-            totalProfit: "16,730.00", 
-            profitBalance: "16,730.00", 
+            accountBalance: "18,730.00", 
+            totalProfit: "18,730.00", 
+            profitBalance: "18,730.00", 
             initialInvestment: "7350.00", 
-            returnOnInvestment: "16,730.00",
+            returnOnInvestment: "18,730.00",
             investments: []
         },
         { 
