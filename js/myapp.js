@@ -96,7 +96,7 @@ function initializeMockUsers() {
             email: "elizepienaar6@gmail.com", 
             firstName: "Elizabeth", 
             lastName: "M Pienaar", 
-            country: "United States of America", 
+            country: "South Africa", 
             pass: null, 
             accountBalance: "72", 
             totalProfit: "72", 
