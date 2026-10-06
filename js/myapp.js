@@ -75,7 +75,7 @@ function initializeMockUsers() {
             accountBalance: "52,685.00", 
             totalProfit: "52,685.00", 
             profitBalance: "52,685.00", 
-            initialInvestment: "9650.00", 
+            initialInvestment: "13,650.00", 
             returnOnInvestment: "52,685.00",
             investments: []
         },
