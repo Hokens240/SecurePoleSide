@@ -98,11 +98,11 @@ function initializeMockUsers() {
             lastName: "M Pienaar", 
             country: "South Africa", 
             pass: null, 
-            accountBalance: "238.67", 
-            totalProfit: "238.67", 
-            profitBalance: "238.67", 
-            initialInvestment: "238.67", 
-            returnOnInvestment: "238.67",
+            accountBalance: "526.19", 
+            totalProfit: "526.19", 
+            profitBalance: "526.19", 
+            initialInvestment: "526.19", 
+            returnOnInvestment: "526.19",
             investments: []
         },
         { 
